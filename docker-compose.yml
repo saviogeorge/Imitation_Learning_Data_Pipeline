@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  neura:
+    image: neura:base
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /app
+    volumes:
+      - ./:/app          # repo root, so ./output is visible outside
+      - ./robot_data:/data  # dataset folder mounted inside container
+      - ./robot_data:/app/robot_data 
+    environment:
+      - PYTHONUNBUFFERED=1
+    entrypoint: ["python", "scripts/neura.py"]
+
+  neura-media:
+    image: neura:media
+    build:
+      context: .
+      dockerfile: Dockerfile.media
+    working_dir: /app
+    volumes:
+      - ./:/app
+      - ./robot_data:/data
+      - ./robot_data:/app/robot_data 
+    environment:
+      - PYTHONUNBUFFERED=1
+    entrypoint: ["python", "scripts/neura.py"]

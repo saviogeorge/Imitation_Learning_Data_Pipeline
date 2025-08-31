@@ -1,0 +1,53 @@
+# Python cache / bytecode
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+*.egg
+*.manifest
+*.spec
+
+# Virtual environments
+.venv/
+env/
+venv/
+ENV/
+
+# Build / dist
+build/
+dist/
+.eggs/
+*.whl
+
+# Jupyter / IDE
+.ipynb_checkpoints/
+.vscode/
+.idea/
+*.swp
+
+# Logs
+*.log
+logs/
+airflow/logs/
+
+# Airflow runtime state
+airflow/plugins/
+airflow/dags/__pycache__/
+
+# Local data & outputs (regenerate via pipeline)
+output/
+robot_data/videos/
+robot_data/tmp/
+*.parquet
+*.jsonl
+*.yaml
+
+# Docker
+*.pid
+*.sock
+*.pid.lock
+
+# OS files
+.DS_Store
+Thumbs.db
