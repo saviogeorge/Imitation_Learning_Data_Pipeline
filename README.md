@@ -163,6 +163,31 @@ output/
 
 Airflow orchestration: DAG to orchestrate all stages (discover → validate → stats → align → materialize) with parallelism & cloud triggers. (ongoing)
 
+AWS: MWAA (Airflow) + EMR Serverless (Spark) + S3 + Iceberg
+
+⚡ So the flow is:
+Raw S3 (New Data Lands in S3 → EventBridge → Lambda (batch) → Airflow API(trigger DAG)) → Discover manifest → Validate (Spark + ffprobe) → Stats (Spark reduce) → Materialize (Spark → Iceberg) → Publish manifest → Training-ready Iceberg table.
+
+    S3 (raw): where robot data lands.
+
+        s3://raw/ (read-only, versioned)
+
+        s3://curated/ (Iceberg warehouse + side tables)
+
+        s3://logs/ (EMR/MWAA/Batch logs)
+
+    Airflow (MWAA): tells each stage when to run.
+
+    Spark (EMR Serverless): crunches large parquet datasets (validation, stats, materialize).
+
+    AWS Batch: handles ffprobe on videos in parallel.
+
+    Iceberg on S3: the polished, queryable training dataset.
+
+    Glue Catalog + Athena/Polars: downstream consumers can query/scan the curated tabl
+
+
+
 CI/CD integration: build & push images, run tests on toy dataset, run full pipeline in CI.
 
 Extended modality support: add new camera views or features via core/constants.py.
